@@ -140,8 +140,8 @@ function App() {
       {/* Presentation Container */}
       <div 
         className={cn(
-          "bg-[#f8fafc] text-[#1e293b] font-sans flex flex-col overflow-hidden select-none border-8 border-[#1e3a8a]",
-          "w-full max-w-6xl aspect-[16/9] shadow-2xl relative transition-all duration-300",
+          "bg-[#f8fafc] text-[#1e293b] font-sans flex flex-col overflow-hidden select-none border-4 md:border-8 border-[#1e3a8a]",
+          "w-full max-w-6xl h-[85vh] md:h-auto md:aspect-[16/9] shadow-2xl relative transition-all duration-300",
           isFullscreen ? "max-w-none w-screen h-screen border-none" : ""
         )}
       >
@@ -149,47 +149,49 @@ function App() {
         {!showOverview && (
           <>
             <div 
-              className="absolute inset-y-0 left-0 w-24 z-40 cursor-pointer flex items-center justify-start pl-6 text-[#1e3a8a]/0 hover:text-[#1e3a8a]/40 bg-gradient-to-r from-black/5 to-transparent opacity-0 hover:opacity-100 transition-all duration-300"
+              className="absolute inset-y-0 left-0 w-12 md:w-24 z-40 cursor-pointer flex items-center justify-start pl-2 md:pl-6 text-[#1e3a8a]/0 hover:text-[#1e3a8a]/40 bg-gradient-to-r from-black/5 to-transparent opacity-0 hover:opacity-100 transition-all duration-300"
               onClick={handlePrev}
             >
-               <ChevronLeft size={64} />
+               <ChevronLeft className="w-8 h-8 md:w-16 md:h-16" />
             </div>
             <div 
-              className="absolute inset-y-0 right-0 w-24 z-40 cursor-pointer flex items-center justify-end pr-6 text-[#1e3a8a]/0 hover:text-[#1e3a8a]/40 bg-gradient-to-l from-black/5 to-transparent opacity-0 hover:opacity-100 transition-all duration-300"
+              className="absolute inset-y-0 right-0 w-12 md:w-24 z-40 cursor-pointer flex items-center justify-end pr-2 md:pr-6 text-[#1e3a8a]/0 hover:text-[#1e3a8a]/40 bg-gradient-to-l from-black/5 to-transparent opacity-0 hover:opacity-100 transition-all duration-300"
               onClick={handleNext}
             >
-               <ChevronRight size={64} />
+               <ChevronRight className="w-8 h-8 md:w-16 md:h-16" />
             </div>
           </>
         )}
 
         {/* Header */}
         {!showOverview && currentSlide.type !== 'title' && (
-          <header className="bg-[#1e3a8a] text-white p-6 flex justify-between items-center shadow-md z-10 shrink-0">
+          <header className="bg-[#1e3a8a] text-white p-3 md:p-6 flex flex-col md:flex-row justify-between items-start md:items-center shadow-md z-10 shrink-0 gap-2 md:gap-0">
             <div className="flex flex-col">
-              <span className="text-xs font-bold tracking-widest text-[#fbbf24] uppercase">NCERT Chapter 01: Power Sharing</span>
+              <span className="text-[10px] md:text-xs font-bold tracking-widest text-[#fbbf24] uppercase">NCERT Chapter 01: Power Sharing</span>
               <h1 className="text-3xl font-black uppercase tracking-tight leading-none mt-1 flex items-center">
-                <BookOpen className="text-[#fbbf24] w-6 h-6 mr-3" />
-                {currentSlide.title}
+                <BookOpen className="text-[#fbbf24] w-6 h-6 mr-3 shrink-0" />
+                <span className="line-clamp-1 ">{currentSlide.title}</span>
               </h1>
             </div>
-            <div className="text-right flex flex-col items-end">
-              <div className="bg-white text-[#1e3a8a] px-3 py-1 rounded font-bold text-sm mb-1 shadow-sm">
-                Slide {currentSlideIndex + 1} of {slides.length}
+            <div className="flex flex-col items-end justify-between w-auto">
+              <div className="bg-white text-[#1e3a8a] px-2 py-0.5 md:px-3 md:py-1 rounded font-bold text-sm shadow-sm mb-1">
+                Slide {currentSlideIndex + 1} / {slides.length}
               </div>
-              <div className="text-[10px] uppercase tracking-tighter opacity-80">CBSE Board Exam Series 2027</div>
-              {currentSlide.isHighWeightage && (
-                <div className="flex items-center space-x-1 text-[#fbbf24] text-[10px] uppercase font-bold mt-1 animate-pulse">
-                  <AlertTriangle size={12} />
-                  <span>Most Important</span>
-                </div>
-              )}
+              <div className="flex flex-col items-end">
+                <div className="text-[8px] md:text-[10px] uppercase tracking-tighter opacity-80 block">CBSE Board Exam Series 2027</div>
+                {currentSlide.isHighWeightage && (
+                  <div className="flex items-center space-x-1 text-[#fbbf24] text-[8px] md:text-[10px] uppercase font-bold mt-0.5 md:mt-1 animate-pulse">
+                    <AlertTriangle size={10} className="" />
+                    <span>Most Important</span>
+                  </div>
+                )}
+              </div>
             </div>
           </header>
         )}
 
         {/* Main Content Area */}
-        <main className="flex-1 relative overflow-hidden bg-[#f8fafc]">
+        <main className="@container flex-1 relative overflow-hidden bg-[#f8fafc]">
           <AnimatePresence initial={false} custom={direction} mode="wait">
             {!showOverview ? (
               <motion.div
@@ -205,20 +207,20 @@ function App() {
                   scale: { duration: 0.2 }
                 }}
                 className={cn(
-                  "absolute inset-0 p-8 overflow-y-auto",
+                  "absolute inset-0 p-4 @md:p-8 overflow-y-auto",
                   currentSlide.type === 'title' ? 'flex flex-col items-center justify-center text-center' : ''
                 )}
               >
                 {currentSlide.type === 'title' ? (
-                  <div className="flex flex-col items-center justify-center space-y-8 w-full max-w-4xl mx-auto h-full">
-                     <div className="bg-[#fff7ed] border-2 border-[#fbbf24] text-[#9a3412] px-8 py-3 rounded font-black uppercase tracking-widest mb-6">
+                  <div className="flex flex-col items-center justify-center space-y-4 @lg:space-y-8 w-full max-w-4xl mx-auto h-full">
+                     <div className="bg-[#fff7ed] border-2 border-[#fbbf24] text-[#9a3412] px-4 py-2 @lg:px-8 @lg:py-3 rounded font-black text-xs @lg:text-base uppercase tracking-widest mb-2 @lg:mb-6">
                       NCERT Strict Focus
                     </div>
-                    <h1 className="text-6xl md:text-8xl font-black text-[#1e3a8a] uppercase tracking-tight leading-none">
+                    <h1 className="text-3xl @sm:text-4xl @md:text-6xl @lg:text-8xl font-black text-[#1e3a8a] uppercase tracking-tight leading-none px-2 text-center">
                       {currentSlide.title}
                     </h1>
                     {currentSlide.subtitle && (
-                      <p className="text-xl md:text-2xl text-slate-600 font-bold uppercase tracking-tight leading-relaxed whitespace-pre-line">
+                      <p className="text-sm @sm:text-base @md:text-xl @lg:text-2xl text-slate-600 font-bold uppercase tracking-tight leading-relaxed whitespace-pre-line mt-2 @lg:mt-4 px-4 text-center">
                         {currentSlide.subtitle}
                       </p>
                     )}
@@ -236,7 +238,7 @@ function App() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.2 }}
-                className="absolute inset-0 bg-[#e2e8f0] p-8 overflow-y-auto z-50"
+                className="absolute inset-0 bg-[#e2e8f0] p-4 md:p-8 overflow-y-auto z-50"
               >
                 <div className="flex justify-between items-center mb-8">
                   <h2 className="text-3xl font-black text-[#1e3a8a] uppercase tracking-tight">Slide Overview</h2>
@@ -248,7 +250,7 @@ function App() {
                   </button>
                 </div>
                 
-                <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-6">
                   {slides.map((slide, idx) => (
                     <div 
                       key={slide.id}
@@ -285,14 +287,14 @@ function App() {
 
         {/* Footer Area */}
         {!showOverview && (
-          <footer className="bg-slate-200 border-t border-slate-300 px-8 py-3 flex justify-between items-center text-[11px] font-bold text-slate-600 uppercase tracking-wider shrink-0 z-10 relative">
-            <div className="flex items-center space-x-4">
-              <span className="text-[#1e3a8a] flex items-center"><AlertCircle size={14} className="mr-1" /> CBSE Boards Focus: {currentSlide.focus}</span>
-              <span className="text-slate-400">|</span>
-              <span>Class 10 Political Science</span>
+          <footer className="bg-slate-200 border-t border-slate-300 px-4 md:px-8 py-2 md:py-3 flex flex-col md:flex-row justify-between items-center text-[8px] md:text-[11px] font-bold text-slate-600 uppercase tracking-wider shrink-0 z-10 relative gap-1 md:gap-0">
+            <div className="flex flex-wrap justify-center items-center gap-2 md:space-x-4">
+              <span className="text-[#1e3a8a] flex items-center"><AlertCircle size={10} className="md:w-3.5 md:h-3.5 mr-1" /> Focus: {currentSlide.focus}</span>
+              <span className="text-slate-400 inline">|</span>
+              <span className="inline">Class 10 Political Science</span>
             </div>
             
-            <div className="">
+            <div className="opacity-70">
                Prepared by: ANSH KUMAR
             </div>
           </footer>
@@ -412,17 +414,17 @@ function App() {
               )}
 
               {/* Main Content Area */}
-              <main className="flex-1 relative overflow-hidden bg-[#f8fafc] p-8">
+              <main className="@container flex-1 relative overflow-hidden bg-[#f8fafc] p-8">
                   {slide.type === 'title' ? (
-                    <div className="flex flex-col items-center justify-center space-y-8 w-full max-w-4xl mx-auto h-full text-center">
-                       <div className="bg-[#fff7ed] border-2 border-[#fbbf24] text-[#9a3412] px-8 py-3 rounded font-black uppercase tracking-widest mb-6">
+                    <div className="flex flex-col items-center justify-center space-y-4 @lg:space-y-8 w-full max-w-4xl mx-auto h-full">
+                       <div className="bg-[#fff7ed] border-2 border-[#fbbf24] text-[#9a3412] px-4 py-2 @lg:px-8 @lg:py-3 rounded font-black text-xs @lg:text-base uppercase tracking-widest mb-2 @lg:mb-6">
                         NCERT Strict Focus
                       </div>
-                      <h1 className="text-6xl font-black text-[#1e3a8a] uppercase tracking-tight leading-none">
+                      <h1 className="text-3xl @sm:text-4xl @md:text-6xl @lg:text-8xl font-black text-[#1e3a8a] uppercase tracking-tight leading-none px-2 text-center">
                         {slide.title}
                       </h1>
                       {slide.subtitle && (
-                        <p className="text-xl text-slate-600 font-bold uppercase tracking-tight leading-relaxed whitespace-pre-line">
+                        <p className="text-sm @sm:text-base @md:text-xl @lg:text-2xl text-slate-600 font-bold uppercase tracking-tight leading-relaxed whitespace-pre-line mt-2 @lg:mt-4 px-4 text-center">
                           {slide.subtitle}
                         </p>
                       )}
